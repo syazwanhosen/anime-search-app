@@ -1,8 +1,11 @@
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from './routes/Routes';
+
 function App() {
   return (
-    <div className="App">
-      <p>Let's build Anime Search Apps</p>
-    </div>
+    <Router>
+      <AppRoutes />
+    </Router>
   );
 }
 
