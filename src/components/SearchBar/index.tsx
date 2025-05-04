@@ -1,11 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { TextField, TextFieldProps, InputAdornment } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-interface SearchBarProps extends Omit<TextFieldProps, 'value' | 'onChange'> {
-    input: string;
-    setInput: (value: string) => void;
-}
+// Types
+import { SearchBarProps } from '../../types';
+
 
 const SearchBar: React.FC<SearchBarProps> = ({ input, setInput, ...props }) => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
