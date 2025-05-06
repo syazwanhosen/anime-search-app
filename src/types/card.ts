@@ -1,10 +1,6 @@
+import { ReactNode } from 'react';
+import { SxProps, Theme } from '@mui/material';
 export interface CardProps {
-    mal_id: number;
-    title: string;
-    images: {
-        jpg: {
-            image_url: string;
-        };
-    };
-    score: number;
+    children?: ReactNode;
+    sx?: SxProps<Theme>;
 }
