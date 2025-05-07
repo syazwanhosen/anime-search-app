@@ -19,7 +19,6 @@ const CustomCard: React.FC<CardProps> = ({ children, sx }) => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'center',
                     gap: 1,
                 }}
             >
