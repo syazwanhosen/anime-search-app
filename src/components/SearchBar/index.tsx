@@ -6,15 +6,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { SearchBarProps } from '../../types';
 
 
-const SearchBar: React.FC<SearchBarProps> = ({ input, setInput, ...props }) => {
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setInput(event.target.value);
-    };
-
+const SearchBar: React.FC<SearchBarProps> = ({ ...props }) => {
     return (
         <TextField
-            value={input}
-            onChange={handleChange}
             variant="outlined"
             margin="normal"
             InputProps={{

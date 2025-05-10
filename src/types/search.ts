@@ -1,6 +1,3 @@
-import { TextFieldProps } from '@mui/material';
+import { TextField } from '@mui/material';
 
-export interface SearchBarProps extends Omit<TextFieldProps, 'value' | 'onChange'> {
-    input: string;
-    setInput: (value: string) => void;
-}
+export interface SearchBarProps extends React.ComponentProps<typeof TextField> { }
