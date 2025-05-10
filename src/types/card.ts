@@ -1,6 +1,3 @@
-import { ReactNode } from 'react';
-import { SxProps, Theme } from '@mui/material';
-export interface CardProps {
-    children?: ReactNode;
-    sx?: SxProps<Theme>;
-}
+import { CardProps as MuiCardProps } from '@mui/material';
+
+export interface CardProps extends MuiCardProps { }

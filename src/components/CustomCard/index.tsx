@@ -5,7 +5,7 @@ import { Card, Box } from '@mui/material';
 import { CardProps } from '../../types';
 
 
-const CustomCard: React.FC<CardProps> = ({ children, sx }) => {
+const CustomCard: React.FC<CardProps> = ({ children, sx, ...props }) => {
     return (
         <Card
             sx={{
@@ -14,6 +14,7 @@ const CustomCard: React.FC<CardProps> = ({ children, sx }) => {
                 backgroundColor: '#fff',
                 ...sx,
             }}
+            {...props}
         >
             <Box
                 sx={{
