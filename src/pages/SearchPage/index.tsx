@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -39,8 +39,6 @@ const CENTERED_BOX_STYLE = {
 };
 
 const SearchPage = () => {
-    const isFirstRun = useRef(true);
-
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
@@ -52,20 +50,15 @@ const SearchPage = () => {
     const debouncedInput = useDebounce(query, 250);
 
     useEffect(() => {
-        if (!debouncedInput.trim()) return;
-
-        if (isFirstRun.current) {
-            isFirstRun.current = false;
-            return;
+        if (debouncedInput.trim()) {
+            dispatch(
+                searchAnime({
+                    query: debouncedInput,
+                    page: page + 1,
+                    limit: rowsPerPage,
+                })
+            );
         }
-
-        dispatch(
-            searchAnime({
-                query: debouncedInput,
-                page: page + 1,
-                limit: rowsPerPage,
-            })
-        );
     }, [debouncedInput, page, rowsPerPage]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

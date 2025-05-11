@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -42,7 +42,6 @@ const EmptyState = () => (
 );
 
 const AnimeDetail: React.FC = () => {
-    const isFirstRun = useRef(true);
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
@@ -50,12 +49,7 @@ const AnimeDetail: React.FC = () => {
     const theme = useTheme();
 
     useEffect(() => {
-        if (!id) return;
-
-        if (isFirstRun.current) {
-            isFirstRun.current = false;
-            dispatch(getAnimeDetails(Number(id)));
-        }
+        if (id) dispatch(getAnimeDetails(Number(id)));
     }, [id, dispatch]);
 
     const statCards = useMemo(() => {
