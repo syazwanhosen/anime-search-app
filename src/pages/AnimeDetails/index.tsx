@@ -1,57 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
     Box,
     Typography,
     Container,
     CardMedia,
     CardContent,
+    CircularProgress,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+// Store
+import { RootState, AppDispatch } from '../../store';
+
+// Action
+import { getAnimeDetails } from '../../actions/animeActions';
+
+// Components
 import CustomCard from '../../components/CustomCard';
 import Button from '../../components/Button';
 
-interface StatCard {
-    title: string;
-    value: string;
-    backgroundColor: string;
-    fontColor: string;
-}
-
-const STAT_CARDS: StatCard[] = [
-    {
-        title: "1,132,322 USERS",
-        value: "9.2",
-        backgroundColor: "#E3F2FC",
-        fontColor: "#06479E",
-    },
-    {
-        title: "RANK",
-        value: "#1",
-        backgroundColor: "#E8F5E9",
-        fontColor: "#388E3C",
-    },
-    {
-        title: "POPULARITY",
-        value: "#15",
-        backgroundColor: "#FFEBEE",
-        fontColor: "#C62828",
-    },
-    {
-        title: "MEMBERS",
-        value: "1,234,567",
-        backgroundColor: "#FFF3E0",
-        fontColor: "#EF6C00",
-    },
-];
+// Constants
+import { STAT_CARDS } from '../../constant';
 
 const AnimeDetail: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+    const { selectedAnime, loading } = useSelector((state: RootState) => state.anime);
+
+    useEffect(() => {
+        if (id) dispatch(getAnimeDetails(Number(id)))
+    }, [id]);
+
+    if (loading) {
+        return (
+            <Container sx={{ py: 4 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+                    <CircularProgress />
+                </Box>
+            </Container>
+        );
+    }
+
+    if (!selectedAnime) {
+        return (
+            <Container sx={{ py: 4 }}>
+                <Typography variant="h6" color="error">
+                    Anime not found.
+                </Typography>
+            </Container>
+        );
+    }
+
+
     return (
         <Container sx={{ py: 4 }}>
-            <Box
-                display="flex"
-                flexDirection={{ xs: 'column', md: 'row' }}
-                gap={3}
-            >
+            <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={3}>
                 {/* Anime Poster */}
                 <CustomCard
                     sx={{
@@ -64,36 +71,22 @@ const AnimeDetail: React.FC = () => {
                     <CardMedia
                         component="img"
                         height={300}
-                        src="https://cdn.myanimelist.net/images/anime/13/17405.jpg"
-                        alt="Anime Poster"
+                        src={selectedAnime.images.jpg.image_url}
+                        alt={selectedAnime.title}
                     />
                 </CustomCard>
 
                 {/* Synopsis and Stats */}
-                <Box
-                    flex={1}
-                    display="flex"
-                    flexDirection="column"
-                    sx={{ height: { md: 300 } }}
-                >
+                <Box flex={1} display="flex" flexDirection="column" sx={{ height: { md: 300 } }}>
                     <Typography variant="h6" fontWeight="bold" gutterBottom>
-                        Synopsis
+                        {selectedAnime.title}
                     </Typography>
                     <Typography variant="body2" paragraph>
-                        It has been two and a half years since Naruto Uzumaki left Konohagakure,
-                        the Hidden Leaf Village, for intense training following events which fueled
-                        his desire to be stronger. Now Akatsuki, the mysterious organization of
-                        elite rogue ninja, is closing in on their grand plan which may threaten
-                        the safety of the entire shinobi world...
+                        {selectedAnime.synopsis ?? 'No synopsis available.'}
                     </Typography>
 
-                    <Box
-                        display="flex"
-                        gap={2}
-                        flexWrap="wrap"
-                        sx={{ mt: { xs: 2, md: 'auto' } }}
-                    >
-                        {STAT_CARDS.map(({ title, value, backgroundColor, fontColor }) => (
+                    <Box display="flex" gap={2} flexWrap="wrap" sx={{ mt: { xs: 2, md: 'auto' } }}>
+                        {STAT_CARDS(selectedAnime).map(({ title, value, backgroundColor, fontColor }) => (
                             <CustomCard
                                 key={title}
                                 sx={{
@@ -102,7 +95,7 @@ const AnimeDetail: React.FC = () => {
                                     flexGrow: 1,
                                 }}
                             >
-                                <CardContent sx={{ textAlign: "center", p: 2 }}>
+                                <CardContent sx={{ textAlign: 'center', p: 2 }}>
                                     <Typography variant="h5" fontWeight="bold" sx={{ color: fontColor }}>
                                         {value}
                                     </Typography>
@@ -119,6 +112,7 @@ const AnimeDetail: React.FC = () => {
             <Button
                 startIcon={<ArrowBackIcon />}
                 label="Back"
+                onClick={() => navigate(-1)}
                 sx={{ marginTop: 4 }}
             />
         </Container>

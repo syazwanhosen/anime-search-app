@@ -7,7 +7,7 @@ import AnimeDetail from '../pages/AnimeDetails';
 const AppRoutes = () => (
     <Routes>
         <Route path="/" element={<SearchPage />} />
-        <Route path="/anime-details" element={<AnimeDetail />} />
+        <Route path="/anime/:id" element={<AnimeDetail />} />
     </Routes>
 );
 
