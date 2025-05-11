@@ -1,46 +1,97 @@
-# Getting Started with Create React App
+# 🎌 Anime Search App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A responsive and performant Anime Search Application built with **React 19**, **Redux**, **TypeScript**, **Axios**, and **Material UI**, consuming the [Jikan API](https://docs.api.jikan.moe/) to search and view anime details.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- 🔍 **Instant Anime Search** with debounce (250ms)
+- 📄 **Anime Detail Page** with title, image, and metadata
+- 📦 **Redux State Management** with action/reducer/service separation
+- ⏳ **Loading Indicators** with graceful fallback UI
+- ❌ **Error Handling** for network or empty result states
+- 📄 **Pagination** using server-side data
+- 📱 Fully responsive and accessible UI using **Material UI**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+| Technology       | Description                        |
+|------------------|------------------------------------|
+| React 19         | Core UI library                    |
+| Redux (no thunk) | State management                   |
+| React Router DOM | Routing between Search/Detail      |
+| Axios            | HTTP requests                      |
+| Material UI      | UI component framework             |
+| TypeScript       | Type safety                        |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📁 Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+src/
+├── actions/         # Redux action creators
+├── components/      # Shared, reusable UI components
+├── constants/       # App-wide constants (e.g. stat card)
+├── hooks/           # Custom React hooks (e.g. useDebounce)
+├── pages/           # Route-based page components (Search, Details)
+├── reducers/        # Redux reducers
+├── routes/          # Application routes configuration
+├── services/        # API interaction layer (e.g. animeService)
+├── store/           # Redux store setup and configuration
+├── types/           # TypeScript types and interfaces
+├── App.tsx          # Root application component
+├── index.tsx        # App entry point
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🧰 Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clone the repository**
 
-### `npm run eject`
+```bash
+git clone https://github.com/your-username/anime-search-app.git
+cd anime-search-app
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. **Install dependencies**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Or using Yarn:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+yarn install
+```
 
-## Learn More
+3. **Setup Environment Variables**
+Create a .env file in the root of the project and add the following variables:
+```bash
+REACT_APP_API_BASE_URL=https://api.jikan.moe/v4
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. **Running the App**
+To start the development server:
+```bash
+npm run start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Or using Yarn:
+
+```bash
+yarn start
+```
+
+The app will be available at http://localhost:3000.
+
+
+## 📦 API Reference
+This app uses the Jikan API v4:
+
+Search: https://api.jikan.moe/v4/anime?q=naruto&page=1
+
+Details: https://api.jikan.moe/v4/anime/{id}
+
+No authentication required.
