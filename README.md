@@ -52,7 +52,7 @@ src/
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/anime-search-app.git
+git clone https://github.com/syazwanhosen/anime-search-app.git
 cd anime-search-app
 ```
 
