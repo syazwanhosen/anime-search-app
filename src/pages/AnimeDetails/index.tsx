@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
     Box,
     Typography,
@@ -10,12 +9,13 @@ import {
     CardContent,
     CircularProgress,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // Store
 import { RootState, AppDispatch } from '../../store';
 
-// Action
+//Actions
 import { getAnimeDetails } from '../../actions/animeActions';
 
 // Components
@@ -25,48 +25,43 @@ import Button from '../../components/Button';
 // Constants
 import { STAT_CARDS } from '../../constant';
 
-const AnimeDetail: React.FC = () => {
-    const isFirstRun = useRef(true);
+const LoadingState = () => (
+    <Container sx={{ py: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+            <CircularProgress />
+        </Box>
+    </Container>
+);
 
+const EmptyState = () => (
+    <Container sx={{ py: 4 }}>
+        <Typography variant="h6" color="error">
+            Anime not found.
+        </Typography>
+    </Container>
+);
+
+const AnimeDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { selectedAnime, loading } = useSelector((state: RootState) => state.anime);
+    const theme = useTheme();
 
     useEffect(() => {
-        if (!id) return;
+        if (id) dispatch(getAnimeDetails(Number(id)));
+    }, [id, dispatch]);
 
-        if (isFirstRun.current) {
-            isFirstRun.current = false;
-            dispatch(getAnimeDetails(Number(id)));
-        }
-    }, [id]);
+    const statCards = useMemo(() => {
+        return selectedAnime ? STAT_CARDS(selectedAnime, theme) : [];
+    }, [selectedAnime, theme]);
 
-    if (loading) {
-        return (
-            <Container sx={{ py: 4 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-                    <CircularProgress />
-                </Box>
-            </Container>
-        );
-    }
-
-    if (!selectedAnime) {
-        return (
-            <Container sx={{ py: 4 }}>
-                <Typography variant="h6" color="error">
-                    Anime not found.
-                </Typography>
-            </Container>
-        );
-    }
-
+    if (loading) return <LoadingState />;
+    if (!selectedAnime) return <EmptyState />;
 
     return (
         <Container sx={{ py: 4 }}>
             <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={3}>
-                {/* Anime Poster */}
                 <CustomCard
                     sx={{
                         borderRadius: 1,
@@ -83,7 +78,6 @@ const AnimeDetail: React.FC = () => {
                     />
                 </CustomCard>
 
-                {/* Synopsis and Stats */}
                 <Box flex={1} display="flex" flexDirection="column" sx={{ height: { md: 300 } }}>
                     <Typography variant="h6" fontWeight="bold" gutterBottom>
                         {selectedAnime.title}
@@ -93,7 +87,7 @@ const AnimeDetail: React.FC = () => {
                     </Typography>
 
                     <Box display="flex" gap={2} flexWrap="wrap" sx={{ mt: { xs: 2, md: 'auto' } }}>
-                        {STAT_CARDS(selectedAnime).map(({ title, value, backgroundColor, fontColor }) => (
+                        {statCards.map(({ title, value, backgroundColor, fontColor }) => (
                             <CustomCard
                                 key={title}
                                 sx={{
@@ -120,7 +114,7 @@ const AnimeDetail: React.FC = () => {
                 startIcon={<ArrowBackIcon />}
                 label="Back"
                 onClick={() => navigate(-1)}
-                sx={{ marginTop: 4 }}
+                sx={{ mt: 4 }}
             />
         </Container>
     );
