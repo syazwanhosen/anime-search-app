@@ -69,7 +69,7 @@ yarn install
 ```
 
 3. **Setup Environment Variables**
-Create a .env file in the root of the project and add the following variables:
+Create a .env.local file in the root of the project and add the following variables:
 ```bash
 REACT_APP_API_BASE_URL=https://api.jikan.moe/v4
 ```
