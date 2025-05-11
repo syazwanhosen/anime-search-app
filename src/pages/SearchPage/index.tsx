@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -37,6 +37,8 @@ const CENTERED_BOX_STYLE = {
 };
 
 const SearchPage = () => {
+    const isFirstRun = useRef(true);
+
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
@@ -48,16 +50,21 @@ const SearchPage = () => {
     const debouncedInput = useDebounce(query, 250);
 
     useEffect(() => {
-        if (debouncedInput.trim()) {
-            dispatch(
-                searchAnime({
-                    query: debouncedInput,
-                    page: page + 1,
-                    limit: rowsPerPage,
-                })
-            );
+        if (!debouncedInput.trim()) return;
+
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
         }
-    }, [debouncedInput, page, rowsPerPage, dispatch]);
+
+        dispatch(
+            searchAnime({
+                query: debouncedInput,
+                page: page + 1,
+                limit: rowsPerPage,
+            })
+        );
+    }, [debouncedInput, page, rowsPerPage]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setAnimeQuery(e.target.value));
@@ -143,7 +150,7 @@ const SearchPage = () => {
         <Container sx={{ py: 4 }}>
             <SearchBar
                 label="Search"
-                defaultValue={query}
+                value={query}
                 onChange={handleInputChange}
                 fullWidth
             />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,13 +26,20 @@ import Button from '../../components/Button';
 import { STAT_CARDS } from '../../constant';
 
 const AnimeDetail: React.FC = () => {
+    const isFirstRun = useRef(true);
+
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { selectedAnime, loading } = useSelector((state: RootState) => state.anime);
 
     useEffect(() => {
-        if (id) dispatch(getAnimeDetails(Number(id)))
+        if (!id) return;
+
+        if (isFirstRun.current) {
+            isFirstRun.current = false;
+            dispatch(getAnimeDetails(Number(id)));
+        }
     }, [id]);
 
     if (loading) {
