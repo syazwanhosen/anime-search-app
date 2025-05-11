@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 
-// Components
+// Pages
 import SearchPage from '../pages/SearchPage';
 import AnimeDetail from '../pages/AnimeDetails';
 

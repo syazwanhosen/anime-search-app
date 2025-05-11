@@ -1,5 +1,3 @@
-// actions/animeActions.ts
-
 import { AppDispatch } from '../store';
 import { fetchAnime, fetchAnimeById } from '../services/animeService';
 import {

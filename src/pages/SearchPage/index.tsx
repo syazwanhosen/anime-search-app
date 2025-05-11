@@ -11,8 +11,10 @@ import {
     SelectChangeEvent,
 } from '@mui/material';
 
-// Redux
+// Store
 import { RootState, AppDispatch } from '../../store';
+
+// Actions
 import { searchAnime, setAnimeQuery } from '../../actions/animeActions';
 
 // Components
