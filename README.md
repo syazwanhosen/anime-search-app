@@ -31,6 +31,7 @@ A responsive and performant Anime Search Application built with **React 19**, **
 
 ## 📁 Project Structure
 
+```bash
 src/
 ├── actions/         # Redux action creators
 ├── components/      # Shared, reusable UI components
@@ -44,6 +45,7 @@ src/
 ├── types/           # TypeScript types and interfaces
 ├── App.tsx          # Root application component
 ├── index.tsx        # App entry point
+```
 
 ## 🧰 Getting Started
 
