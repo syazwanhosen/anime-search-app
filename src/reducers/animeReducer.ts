@@ -6,6 +6,7 @@ interface AnimeState {
     loading: boolean;
     error: string | null;
     selectedAnime: any | null;
+    query: string;
 }
 
 const initialState: AnimeState = {
@@ -14,6 +15,7 @@ const initialState: AnimeState = {
     loading: false,
     error: null,
     selectedAnime: null,
+    query: '',
 };
 
 const animeSlice = createSlice({
@@ -37,8 +39,11 @@ const animeSlice = createSlice({
             state.selectedAnime = action.payload;
             state.loading = false;
         },
+        setQuery(state, action: PayloadAction<string>) {
+            state.query = action.payload;
+        },
     },
 });
 
-export const { fetchAnimeStart, fetchAnimeSuccess, fetchAnimeFailure, setSelectedAnime } = animeSlice.actions;
+export const { fetchAnimeStart, fetchAnimeSuccess, fetchAnimeFailure, setSelectedAnime, setQuery } = animeSlice.actions;
 export default animeSlice.reducer;

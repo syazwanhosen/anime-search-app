@@ -7,6 +7,7 @@ import {
     fetchAnimeSuccess,
     fetchAnimeFailure,
     setSelectedAnime,
+    setQuery
 } from '../reducers/animeReducer';
 
 export const searchAnime =
@@ -30,3 +31,7 @@ export const getAnimeDetails = (id: number) => async (dispatch: AppDispatch) => 
         dispatch(fetchAnimeFailure(error.message));
     }
 };
+
+export const setAnimeQuery = (query: string) => async (dispatch: AppDispatch) => {
+    dispatch(setQuery(query));
+}

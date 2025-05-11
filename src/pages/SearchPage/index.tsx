@@ -13,7 +13,7 @@ import {
 
 // Redux
 import { RootState, AppDispatch } from '../../store';
-import { searchAnime } from '../../actions/animeActions';
+import { searchAnime, setAnimeQuery } from '../../actions/animeActions';
 
 // Components
 import SearchBar from '../../components/SearchBar';
@@ -40,13 +40,12 @@ const SearchPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
-    const { animeList, totalRecords, loading } = useSelector((state: RootState) => state.anime);
+    const { animeList, totalRecords, loading, query } = useSelector((state: RootState) => state.anime);
 
-    const [input, setInput] = useState<string>('');
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
-    const debouncedInput = useDebounce(input, 250);
+    const debouncedInput = useDebounce(query, 250);
 
     useEffect(() => {
         if (debouncedInput.trim()) {
@@ -61,7 +60,7 @@ const SearchPage = () => {
     }, [debouncedInput, page, rowsPerPage, dispatch]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value);
+        dispatch(setAnimeQuery(e.target.value));
     };
 
     const handlePageChange = (_: unknown, newPage: number) => {
@@ -144,7 +143,7 @@ const SearchPage = () => {
         <Container sx={{ py: 4 }}>
             <SearchBar
                 label="Search"
-                defaultValue={input}
+                defaultValue={query}
                 onChange={handleInputChange}
                 fullWidth
             />
