@@ -23,7 +23,7 @@ const PaginationWithPageSize: React.FC<PaginationProps> = ({
                 onPageChange={onPageChange}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={onTableRowsPerPageChange}
-                rowsPerPageOptions={[5, 10, 25, 50]}
+                rowsPerPageOptions={[5, 10, 15, 20, 25]} // the configured for size limit is '25' from the API
                 labelDisplayedRows={({ from, to, count }) => `Showing ${from}–${to} of ${count}`}
                 showFirstButton
                 showLastButton
